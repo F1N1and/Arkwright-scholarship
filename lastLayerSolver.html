@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Last layer solver</title>
+    <style>
+      button{
+       border:none;
+        background-color:grey;
+        height:75px;
+        width:75px;
+      }
+      .bSL{
+        margin-left:500px;
+      }
+      .lSU{
+        margin-left:420px;
+        margin-top: 8px;
+      }
+      .lSM{
+        margin-left:420px;
+        margin-top: 8px;
+      }
+      .lSF{
+        margin-left:420px;
+        margin-top: 8px;
+      }
+      .fSL{
+        margin-left:500px;
+        margin-top:8px;
+      }
+    
+      .submit{
+        margin-top:75px;
+        margin-left:575px;
+        background-color:black;
+        color:white;
+        height:25px;
+        width:75px;
+      }
+    </style>
+
+  </head>
+  <body>
+    <p>
+    </p>
+   
+    <button type="button" class="button bSL" id="bSL" onclick="bckSdeLeft()">&nbsp;</button>
+    <button type="button" class="button" id="bS" onclick="bckSde()">&nbsp;</button>
+    <button type="button" class="button" id="bSR" onclick="bckSdeRght()">&nbsp;</button>
+    <br>
+    <button type="button" class="button lSU" id="lSU" onclick="lftSdeUp()">&nbsp;</button>
+    <button type="button" class="button" id="bL" onclick="bckLeft()">&nbsp;</button>
+    <button type="button" class="button" id="b" onclick="bckMdl()">&nbsp;</button>
+    <button type="button" class="button" id="bR" onclick="bckRght()">&nbsp;</button>
+    <button type="button" class="button" id="rSU" onclick="rghtSdeUp()">&nbsp;</button>
+    <br>
+    <button type="button" class="button lSM" id="lSM" onclick="lftSdeMid()">&nbsp;</button>
+    <button type="button" class="button" id="lM" onclick="lftMid()">&nbsp;</button>
+    <button type="button" class="button" id="M" onclick="Mid()">&nbsp;</button>
+    <button type="button" class="button" id="rM" onclick="rghtMid()">&nbsp;</button>
+    <button type="button" class="button" id="rSM" onclick="rghtSdeMid()">&nbsp;</button>
+    <br>
+    <button type="button" class="button lSF" id="lSF" onclick="lftSdeFrnt()">&nbsp;</button>
+    <button type="button" class="button" id="lF" onclick="lftFrnt()">&nbsp;</button>
+    <button type="button" class="button" id="f" onclick="Frnt()">&nbsp;</button>
+    <button type="button" class="button" id="rF" onclick="rghtFrnt()">&nbsp;</button>
+    <button type="button" class="button" id="rSF" onclick="rghtSdeFrnt()">&nbsp;</button>
+    <br>
+    <button type="button" class="button fSL" id="fSL" onclick="frntSdeLft()">&nbsp;</button>
+    <button type="button" class="button" id="fS" onclick="frntSde()">&nbsp;</button>
+    <button type="button" class="button" id="fSR" onclick="frntSdeRght()">&nbsp;</button>
+     <br>
+    <button type="button" class="button submit" id="algorithm" onclick="submit()">Algorithm</button>
+    <script>
+
+      let userCube = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: false,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: false,
+        m: false,
+        rM: false,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: false,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const dot = {
+        bSl: false,
+        bS: true,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: false,
+        bR: false,
+        rSU: false,
+
+        lSM: true,
+        lM: false,
+        m: true,
+        rM: false,
+        rSM: true,
+
+        lSF: false,
+        lF: false,
+        f: false,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: true,
+        fSR: false,
+      }
+
+      const iShape1 = {
+        bSl: false,
+        bS: true,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: false,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: false,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const iShape2 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: true,
+        lM: false,
+        m: true,
+        rM: false,
+        rSM: true,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const lShape1 = {
+        bSl: false,
+        bS: true,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: false,
+        bR: false,
+        rSU: false,
+
+        lSM: true,
+        lM: false,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const lShape2 = {
+        bSl: false,
+        bS: true,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: false,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: false,
+        rSM: true,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const lShape3 = {
+        bSl: false,
+        bS: true,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: false,
+        rSM: true,
+
+        lSF: false,
+        lF: false,
+        f: false,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: true,
+        fSR: false,
+      }
+
+      const lShape4 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: true,
+        lM: false,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: false,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: true,
+        fSR: false,
+      }
+
+      const antiSune1 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: true,
+        fS: false,
+        fSR: false,
+      }
+
+      const antiSune2 = {
+        bSl: false,
+        bS: false,
+        bSR: true,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: true,
+        rSF: false,
+
+        fSl: true,
+        fS: false,
+        fSR: false,
+      }
+
+      const antiSune3 = {
+        bSl: false,
+        bS: false,
+        bSR: true,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const antiSune4= {
+        bSl: false,
+        bS: false,
+        bSR: true,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: true,
+        fS: false,
+        fSR: false,
+      }
+
+      const h1 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const h2 = {
+        bSl: true,
+        bS: false,
+        bSR: true,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: true,
+        fS: false,
+        fSR: true,
+      }
+
+      const l1 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: true,
+        rSF: false,
+
+        fSl: true,
+        fS: false,
+        fSR: false,
+      }
+
+      const l2 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: true,
+      }
+
+      const l3 = {
+        bSl: false,
+        bS: false,
+        bSR: true,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: true,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const l4 = {
+        bSl: true,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: true,
+        fS: false,
+        fSR: false,
+      }
+
+      const pi1 = {
+        bSl: false,
+        bS: false,
+        bSR: true,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: true,
+      }
+
+      const pi2 = {
+        bSl: true,
+        bS: false,
+        bSR: true,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const pi3 = {
+        bSl: true,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: true,
+        fS: false,
+        fSR: false,
+      }
+
+      const pi4 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: true,
+        fS: false,
+        fSR: true,
+      }
+
+      const sune1 = {
+        bSl: true,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: true,
+      }
+
+      const sune2 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: true,
+      }
+
+      const sune3 = {
+        bSl: true,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: true,
+      }
+
+      const sune4 = {
+        bSl: true,
+        bS: false,
+        bSR: false,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const t1 = {
+        bSl: true,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: true,
+        rSF: false,
+
+        fSl: true,
+        fS: false,
+        fSR: false,
+      }
+
+      const t2 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: true,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const t3 = {
+        bSl: false,
+        bS: false,
+        bSR: true,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: true,
+      }
+
+      const t4 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const u1 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: false,
+        f: true,
+        rF: false,
+        rSF: false,
+
+        fSl: true,
+        fS: false,
+        fSR: true,
+      }
+
+      const u2 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: true,
+        bL: false,
+        b: true,
+        bR: true,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: true,
+        lF: false,
+        f: true,
+        rF: true,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const u3 = {
+        bSl: true,
+        bS: false,
+        bSR: true,
+        
+        lSU: false,
+        bL: false,
+        b: true,
+        bR: false,
+        rSU: false,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: true,
+        rSF: false,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      const u4 = {
+        bSl: false,
+        bS: false,
+        bSR: false,
+        
+        lSU: false,
+        bL: true,
+        b: true,
+        bR: false,
+        rSU: true,
+
+        lSM: false,
+        lM: true,
+        m: true,
+        rM: true,
+        rSM: false,
+
+        lSF: false,
+        lF: true,
+        f: true,
+        rF: false,
+        rSF: true,
+
+        fSl: false,
+        fS: false,
+        fSR: false,
+      }
+
+      function bckSdeLeft(){
+  if (userCube.bSl == false){
+    userCube.bSl = true 
+    document.getElementById("bSL").style.background= "yellow";
+  }
+  else{
+    userCube.bSl = false;
+    document.getElementById("bSL").style.background= "grey";
+  }
+}
+function bckSde(){
+  if (userCube.bS == false){
+    userCube.bS = true;
+    document.getElementById("bS").style.background= "yellow";
+    
+  }
+  else{
+    userCube.bS = false;
+    document.getElementById("bS").style.background= "grey";
+  }
+}
+function bckSdeRght(){
+  if (userCube.bSR == false){
+    userCube.bSR = true;
+    document.getElementById("bSR").style.background= "yellow";
+  }
+  else{
+    userCube.bSR = false;
+    document.getElementById("bSR").style.background= "grey";
+  }
+}
+
+function lftSdeUp(){
+  if (userCube.lSU == false){
+    userCube.lSU = true;
+    document.getElementById("lSU").style.background= "yellow";
+  }
+  else{
+    userCube.lSU = false;
+    document.getElementById("lSU").style.background= "grey";
+  }
+}
+
+function bckLeft(){
+  if (userCube.bL == false){
+    userCube.bL = true;
+    document.getElementById("bL").style.background= "yellow";
+  }
+  else{
+    userCube.bL = false;
+    document.getElementById("bL").style.background= "grey";
+  }
+}
+function bckMdl(){
+  if (userCube.b == false){
+    userCube.b = true;
+    document.getElementById("b").style.background= "yellow";
+  }
+  else{
+    userCube.b = false;
+    document.getElementById("b").style.background= "grey";
+  }
+}
+
+function bckRght(){
+  if (userCube.bR == false){
+    userCube.bR = true;
+    document.getElementById("bR").style.background= "yellow";
+  }
+  else{
+    userCube.bR = false;
+    document.getElementById("bR").style.background= "grey";
+  }
+}
+
+function rghtSdeUp(){
+  if (userCube.rSU == false){
+    userCube.rSU = true;
+    document.getElementById("rSU").style.background= "yellow";
+  }
+  else{
+    userCube.rSU = false;
+    document.getElementById("rSU").style.background= "grey";
+  }
+}
+
+function lftSdeMid(){
+  if (userCube.lSM == false){
+    userCube.lSM = true;
+    document.getElementById("lSM").style.background= "yellow";
+  }
+  else{
+    userCube.lSM = false;
+    document.getElementById("lSM").style.background= "grey";
+  }
+}
+
+function lftMid(){
+  if (userCube.lM == false){
+    userCube.lM = true;
+    document.getElementById("lM").style.background= "yellow";
+  }
+  else{
+    userCube.lM = false;
+    document.getElementById("lM").style.background= "grey";
+  }
+}
+
+function Mid(){
+  if (userCube.m == false){
+    userCube.m = true;
+    document.getElementById("M").style.background= "yellow";
+  }
+  else{
+    userCube.m = false;
+    document.getElementById("M").style.background= "grey";
+  }
+}
+
+function rghtMid(){
+  if (userCube.rM == false){
+    userCube.rM = true;
+    document.getElementById("rM").style.background= "yellow";
+  }
+  else{
+    userCube.rM = false;
+    document.getElementById("rM").style.background= "grey";
+  }
+}
+
+function rghtSdeMid(){
+  if (userCube.rSM == false){
+    userCube.rSM = true;
+    document.getElementById("rSM").style.background= "yellow";
+  }
+  else{
+    userCube.rSM = false;
+    document.getElementById("rSM").style.background= "grey";
+  }
+}
+
+function lftSdeFrnt(){
+  if (userCube.lSF == false){
+    userCube.lSF = true;
+    document.getElementById("lSF").style.background= "yellow";
+  }
+  else{
+    userCube.lSF = false;
+    document.getElementById("lSF").style.background= "grey";
+  }
+}
+
+function lftFrnt(){
+  if (userCube.lF == false){
+    userCube.lF = true;
+    document.getElementById("lF").style.background= "yellow";
+  }
+  else{
+    userCube.lF = false;
+    document.getElementById("lF").style.background= "grey";
+  }
+}
+
+function Frnt(){
+  if (userCube.f == false){
+    userCube.f = true;
+    document.getElementById("f").style.background= "yellow";
+  }
+  else{
+    userCube.f = false;
+    document.getElementById("f").style.background= "grey";
+  }
+}
+
+function rghtFrnt(){
+  if (userCube.rF == false){
+    userCube.rF = true;
+    document.getElementById("rF").style.background= "yellow";
+  }
+  else{
+    userCube.rF = false;
+    document.getElementById("rF").style.background= "grey";
+  }
+}
+
+function rghtSdeFrnt(){
+  if (userCube.rSF == false){
+    userCube.rSF = true;
+    document.getElementById("rSF").style.background= "yellow";
+  }
+  else{
+    userCube.rSF = false;
+    document.getElementById("rSF").style.background= "grey";
+  }
+}
+
+function frntSdeLft(){
+  if (userCube.fSL == false){
+    userCube.fSL = true;
+    document.getElementById("fSL").style.background= "yellow";
+  }
+  else{
+    userCube.fSL = false;
+    document.getElementById("fSL").style.background= "grey";
+  }
+}
+
+function frntSde(){
+  if (userCube.fS == false){
+    userCube.fS = true;
+    document.getElementById("fS").style.background= "yellow";
+  }
+  else{
+    userCube.fS = false;
+    document.getElementById("fS").style.background= "grey";
+  }
+}
+
+function frntSdeRght(){
+  if (userCube.fSR == false){
+    userCube.fSR = true;
+    document.getElementById("fSR").style.background= "yellow";
+  }
+  else{
+    userCube.fSR = false;
+    document.getElementById("fSR").style.background= "grey";
+  }
+}
+
+function submit(){
+    if(JSON.stringify(userCube)===JSON.stringify(dot)){
+      document.getElementById("algorithm").innerText= "F R U R' U' F' f R U R' U' f'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(iShape1)){
+      document.getElementById("algorithm").innerHTML= "F R U R' U' F'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(iShape2)){
+      document.getElementById("algorithm").innerHTML= "U' F R U R' U' F'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(lShape1)){
+      document.getElementById("algorithm").innerHTML= "f R U R' U' f'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(lShape2)){
+      document.getElementById("algorithm").innerHTML= "U' f R U R' U' f'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(lShape3)){
+      document.getElementById("algorithm").innerHTML= "U2 f R U R' U' f'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(lShape4)){
+      document.getElementById("algorithm").innerHTML= "U f R U R' U' f'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(antiSune1)){
+      document.getElementById("algorithm").innerHTML= "R U2 R' U' R U' R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(antiSune2)){
+      document.getElementById("algorithm").innerHTML= "U' R U2 R' U' R U' R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(antiSune3)){
+      document.getElementById("algorithm").innerHTML= "U2 R U2 R' U' R U' R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(antiSune4)){
+      document.getElementById("algorithm").innerHTML= "U R U2 R' U' R U' R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(h1)){
+      document.getElementById("algorithm").innerHTML= "R U R' U R U' R' U R U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(h2)){
+      document.getElementById("algorithm").innerHTML= "U R U R' U R U' R' U R U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(l1)){
+      document.getElementById("algorithm").innerHTML= "F R' F' r U R U' r'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(l2)){
+      document.getElementById("algorithm").innerHTML= "U' F R' F' r U R U' r'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(l3)){
+      document.getElementById("algorithm").innerHTML= "U2 F R' F' r U R U' r'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(l4)){
+      document.getElementById("algorithm").innerHTML= "U F R' F' r U R U' r'"; 
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(pi1)){
+      document.getElementById("algorithm").innerHTML= "R U2 R2 U' R2 U' R2 U2 R";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(pi2)){
+      document.getElementById("algorithm").innerHTML= "U' R U2 R2 U' R2 U' R2 U2 R";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(pi3)){
+      document.getElementById("algorithm").innerHTML= "U2 R U2 R2 U' R2 U' R2 U2 R";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(pi4)){
+      document.getElementById("algorithm").innerHTML= "U R U2 R2 U' R2 U' R2 U2 R";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(sune1)){
+      document.getElementById("algorithm").innerHTML= "R U R' U R U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(sune2)){
+      document.getElementById("algorithm").innerHTML= "U' R U R' U R U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(sune3)){
+      document.getElementById("algorithm").innerHTML= "U2 R U R' U R U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(sune4)){
+      document.getElementById("algorithm").innerHTML= "U R U R' U R U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(t1)){
+      document.getElementById("algorithm").innerHTML= "r U R' U' r' F R F'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(t2)){
+      document.getElementById("algorithm").innerHTML= "U' r U R' U' r' F R F'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(t3)){
+      document.getElementById("algorithm").innerHTML= "U2 r U R' U' r' F R F'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(t4)){
+      document.getElementById("algorithm").innerHTML= "U r U R' U' r' F R F'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(u1)){
+      document.getElementById("algorithm").innerHTML= "R2 D R' U2 R D' R' U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(u2)){
+      document.getElementById("algorithm").innerHTML= "U' R2 D R' U2 R D' R' U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(u3)){
+      document.getElementById("algorithm").innerHTML= "U2 R2 D R' U2 R D' R' U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+    if(JSON.stringify(userCube)===JSON.stringify(u4)){
+      document.getElementById("algorithm").innerHTML= "U R2 D R' U2 R D' R' U2 R'";
+    document.getElementById("algorithm").style.background= "grey";
+    document.getElementById("algorithm").style.width='auto';
+    document.getElementById("algorithm").style.textAlign='centre';
+    }
+}
+    </script>
+  </body>
+</html>
